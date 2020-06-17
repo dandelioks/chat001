@@ -6,7 +6,7 @@ html
                 if pageTitle
                     |#{pageTitle}
                 else
-                    |Chat-PO11
+                    |Chat
         block stylesheets
             link(rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.css")
             link(rel="stylesheet" href="/css/app.css")
@@ -16,13 +16,13 @@ html
     body
         block body
             block navbar
-                include ../partials/topNavigation.jade
+                include ../partials/topNavigation
             block header
                 header
                     h1
                         if pageTitle
                             |#{pageTitle}
                         else
-                            |Chat-PO11
+                            |Chat
             section.container
                 block content

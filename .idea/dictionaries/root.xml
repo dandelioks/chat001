@@ -3,7 +3,10 @@
     <words>
       <w>errorhandler</w>
       <w>multer</w>
+      <w>navbar</w>
       <w>nconf</w>
+      <w>tablist</w>
+      <w>tabpanel</w>
     </words>
   </dictionary>
 </component>
