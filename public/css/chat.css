@@ -65,7 +65,7 @@
 
 #logo {
     height: 10%;
-    background: url("/img/logo.jpg");
+    background: url("/public/img/logo.jpg");
     background-size: cover;
     background-position-y: -30px;
 }
@@ -149,7 +149,7 @@
     cursor: pointer;
     width: 24px;
     height: 24px;
-    background: url('/img/im_smile_cross.png') 0 -24px no-repeat;
+    background: url('/public/img/im_smile_cross.png') 0 -24px no-repeat;
 }
 
 .hoverable:hover {

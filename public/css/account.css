@@ -43,7 +43,7 @@ textarea {
 #avatar-preview {
     width: 48px;
     height: 48px;
-    background: url("/img/default-ava.png");
+    background: url("/public/img/default-ava.png");
     background-size: cover;
 }
 
