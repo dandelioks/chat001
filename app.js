@@ -3,39 +3,85 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var errorhandler = require('errorhandler');
+var http = require('http');
+var fs = require('fs');
+var config = require('./config/index');
+var log = require('./lib/log')(module);
+//var mongoose = require('lib/mongoose');
+var HttpError = require('error').HttpError;
+var bodyParser  =  require ( 'body-parser' )
+var  multer   =  require ( 'multer' )
+var  favicon  =  require ( 'serve-favicon' ) //иконка нам пока не нужна
+var debug = require('debug')('app4');
+var  session  =  require ( 'express-session' )
+//var sessionStore = require('./lib/sessionStore');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('views', __dirname + '/template');
+app.set('view engine', 'jade');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//app.use(favicon()); иконка нам пока не нужна
+
+if (app.get('env') === 'development') {
+  app.use(logger('dev'));
+} else {
+  app.use(logger('default'));
+}
+
+app.use(bodyParser.text( // выползло из body parser'a
+    {
+      keepExtensions: true,
+      uploadDir: './public/uploads/'
+    }
+));
+//app.use(multer());
+
 app.use(cookieParser());
+
+/*
+app.use(session({
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  cookie: config.get('session:cookie'),
+  store: sessionStore
+}));*/
+
+app.use(require('./middleware/sendHttpError'));
+//app.use(require('./middleware/loadUser'));
+
+//app.use(app.router);
+
+require('./routes')(app);
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (err, req, res, next) {
+  if (typeof err == 'number') {
+    err = new HttpError(err);
+  }
+
+  if (err instanceof HttpError) {
+    res.sendHttpError(err);
+  } else {
+    if (app.get('env') === 'development') {
+      errorhandler()(err, req, res, next);
+    } else {
+      log.error(err);
+      err = new HttpError(500);
+      res.sendHttpError(err);
+    }
+  }
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+var server = http.createServer(app);
+
+var io = require('./socket')(server);
+app.set('io', io);
+
+server.listen(config.get('port'), function () {
+  console.log("Server started at %d port", config.get('port'));
 });
-
-module.exports = app;
