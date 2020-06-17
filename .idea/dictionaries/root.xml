@@ -2,12 +2,14 @@
   <dictionary name="root">
     <words>
       <w>errorhandler</w>
+      <w>linkify</w>
       <w>multer</w>
       <w>navbar</w>
       <w>nconf</w>
       <w>resave</w>
       <w>tablist</w>
       <w>tabpanel</w>
+      <w>валидацию</w>
       <w>фунцкии</w>
     </words>
   </dictionary>
