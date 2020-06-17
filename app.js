@@ -3,9 +3,9 @@
 //фунцкии
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var logger = require('morgan'); //morgan - HTTP request logger middleware for node.js
 var errorhandler = require('errorhandler');
-var session  =  require ( 'express-session' )
+var session  =  require ( 'express-session' );
 
 //переменные
 var path = require('path');
@@ -14,7 +14,7 @@ var sessionStore = require('./lib/sessionStore');
 
 //модули
 var config = require('./config/index');
-var bodyParser  =  require ( 'body-parser' )
+var bodyParser  =  require ( 'body-parser' );
 
 var log = require('./lib/log')(module);
 var HttpError = require('./error/index').HttpError;
@@ -35,7 +35,9 @@ app.set('view engine', 'pug'); //подключаем мопса
 
 //app.use(favicon()); иконка нам пока не нужна
 
-//разобрать
+// режим среды = разработка?
+// тогда сделай логи в стиле dev (с цветами, красивенький)
+// иначе в стиле default
 if (app.get('env') === 'development') {
   app.use(logger('dev'));
 } else {
@@ -53,8 +55,10 @@ app.use(cookieParser());
 
 //параметры берутся .get-ом из config/config.json
 app.use(session({
+  resave: false,
   secret: config.get('session:secret'),
   key: config.get('session:key'),
+  saveUninitialized: false, //реализация сеансов входа в систему
   cookie: config.get('session:cookie'),
   store: sessionStore
 }));

@@ -3,11 +3,11 @@
   "mongoose": {
     "uri": "mongodb://localhost/chat",
     "options": {
-      "server": {
+
         "socketOptions": {
           "keepAlive": 1
         }
-      }
+
     }
   },
   "session": {
