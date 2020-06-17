@@ -1,29 +1,41 @@
-var createError = require('http-errors');
+//добавление зависимостей
+
+//фунцкии
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var errorhandler = require('errorhandler');
+var session  =  require ( 'express-session' )
+
+//переменные
+var path = require('path');
 var http = require('http');
-var fs = require('fs');
-var config = require('./config/index');
-var log = require('./lib/log')(module);
-var mongoose = require('./lib/mongoose');
-var HttpError = require('./error/index').HttpError;
-var bodyParser  =  require ( 'body-parser' )
-var  multer   =  require ( 'multer' )
-var  favicon  =  require ( 'serve-favicon' ) //иконка нам пока не нужна
-var debug = require('debug')('app4');
-var  session  =  require ( 'express-session' )
 var sessionStore = require('./lib/sessionStore');
 
-var app = express();
+//модули
+var config = require('./config/index');
+var bodyParser  =  require ( 'body-parser' )
 
-app.set('views', __dirname + '/template');
-app.set('view engine', 'pug');
+var log = require('./lib/log')(module);
+var HttpError = require('./error/index').HttpError;
+
+//неактивно
+/*
+var  favicon  =  require ( 'serve-favicon' ) //иконка нам пока не нужна
+*/
+
+var app = express();//все так делают. а мы чем хуже?
+
+//======================================================================================================================
+
+app.set('views', __dirname + '/template'); //где находятся views
+app.use(express.static(path.join(__dirname, 'public')));//где находится статика
+
+app.set('view engine', 'pug'); //подключаем мопса
 
 //app.use(favicon()); иконка нам пока не нужна
 
+//разобрать
 if (app.get('env') === 'development') {
   app.use(logger('dev'));
 } else {
@@ -36,11 +48,10 @@ app.use(bodyParser.text( // выползло из body parser'a
       uploadDir: './public/uploads/'
     }
 ));
-//app.use(multer());
 
 app.use(cookieParser());
 
-
+//параметры берутся .get-ом из config/config.json
 app.use(session({
   secret: config.get('session:secret'),
   key: config.get('session:key'),
@@ -51,11 +62,9 @@ app.use(session({
 app.use(require('./middleware/sendHttpError'));
 app.use(require('./middleware/loadUser'));
 
-//app.use(app.router);
-
 require('./routes')(app);
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 app.use(function (err, req, res, next) {
