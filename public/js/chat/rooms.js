@@ -286,7 +286,7 @@ $(document).ready(function () {
             roomName: roomsList.currentRoom.roomName,
             invitedUsers: selectedUsers
         };
-        socket.emit("inviteUsers", data, function (err) {
+        io.emit("inviteUsers", data, function (err) {
             if (err) {
                 console.error(err);
                 return;
@@ -302,7 +302,7 @@ $(document).ready(function () {
         var roomName = roomsList.currentRoom.roomName;
         if (confirm("Вы действительно хотите покинуть комнату " + roomName + "?")) {
             // запрос на выход из комнаты
-            socket.emit("leaveRoom", roomName, function(err) {
+            io.emit("leaveRoom", roomName, function(err) {
                 if (err) return console.error(err);
                 // если успех - удалить комнату из списка и все сообщения из комнаты
                 roomsList.removeRoom(roomName);
@@ -357,7 +357,7 @@ $(document).ready(function () {
 function switchRoom(roomName, callback) {
     console.info('called switchRoom');
     messageContainer.empty();
-    socket.emit("switchRoom", roomName, function (roomId) {
+    io.emit("switchRoom", roomName, function (roomId) {
         console.info('switchRoom callback executes.');
         roomsList.updateCurrent(roomName, roomId);
         roomsList.showControls();

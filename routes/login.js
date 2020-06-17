@@ -13,7 +13,6 @@ exports.post = function(req, res, next) {
   //TODO добавить валидацию пароля
   var username = req.body.username;
   var password = req.body.password;
-
   if (!username || !password ||
      forbiddenLogins.indexOf(username.toLowerCase()) > -1
       || username !== username.replace(/[^A-zА-яЁё\d\s-]/g, '')

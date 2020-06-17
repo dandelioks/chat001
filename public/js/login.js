@@ -21,6 +21,7 @@ $(document).on("ready", function()
             url: "/login",
             method: "POST",
             data: form.serialize(),
+
             complete: function()
             {
                 $(":submit", form).button("reset");

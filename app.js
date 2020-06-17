@@ -44,7 +44,7 @@ if (app.get('env') === 'development') {
   app.use(logger('default'));
 }
 
-app.use(bodyParser.text( // выползло из body parser'a
+app.use(bodyParser.urlencoded(
     {
       keepExtensions: true,
       uploadDir: './public/uploads/'

@@ -39,19 +39,19 @@ block content
                     form.basic-form
                         .form-group
                             #avatar-preview
-                            label.control-label(for="#avatar") Аватар
+                            label.control-label(for=avatar) Аватар
                             input#avatar(name="avatar" type="file")
 
                         .form-group
-                            label.control-label(for="#name") Имя
+                            label.control-label(for=name) Имя
                             input#name.form-control(name="name" type="text" placeholder="Введите ваше обычное имя")
 
                         .form-group
-                            label.control-label(for="#age") Возраст
+                            label.control-label(for=age) Возраст
                             input#age.form-control(name="age" type="text" placeholder="Только цифры от 5 до 120")
 
                         .form-group
-                            label.control-label(for="#about") Обо мне
+                            label.control-label(for=about) Обо мне
                             textarea#about.form-control(name="about" placeholder="Расскажите что-нибудь о себе...")
                         button.btn.btn-sm.btn-primary.btn-save(type="submit") Сохранить
                 #storage.tab-pane.fade.active.in(role="tabpanel" aria-labelledby="storage-tab")

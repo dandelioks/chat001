@@ -205,7 +205,7 @@ socket
         location.href = "/";
     })
     .on('error', function (reason) {
-        if (reason == "handshake unauthorized") {
+        if (reason === "handshake unauthorized") {
             printStatus("вы вышли из сайта");
         } else {
             setTimeout(function () {
