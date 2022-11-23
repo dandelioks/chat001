@@ -32,7 +32,7 @@
     "lib": "^4.2.0",
     "middleware": "^1.0.0",
     "multer": "^1.4.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "winston": "^3.2.1"
   }
 }
